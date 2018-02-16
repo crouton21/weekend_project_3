@@ -9,14 +9,18 @@
   <body>
     <form>
         <input type="text" placeholder="New Task" id="newTask">
+        <select id="whichCalendar">
+            <option>default</option>
+        </select>
         <button id="addTask">Add Task</button>
     </form>
-
+    <div id="tables">
     <table>
         <thead>
             <tr>
                 <th>Completed?</th>
                 <th>Task</th>
+                <th>Calendar</th>
                 <th>Delete</th>
             </tr>
         </thead>
@@ -35,5 +39,6 @@
             <tbody id="viewCompletedTasks">
             </tbody>
         </table>
+    </div>
   </body>
 </html>

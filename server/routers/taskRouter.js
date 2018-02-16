@@ -5,8 +5,8 @@ const pool = require('../modules/pool.js');
 
 router.post('/', function(request, response){
     taskToAdd = request.body;
-    const sqlText = `INSERT INTO todo (task, completed) VALUES($1, $2)`
-    pool.query(sqlText, [taskToAdd.task, false])
+    const sqlText = `INSERT INTO todo (task, completed, calendar) VALUES($1, $2, $3)`
+    pool.query(sqlText, [taskToAdd.task, false, taskToAdd.calendar])
     .then(function(result){
         console.log('Added task:', result);
         response.send(201);
@@ -29,6 +29,8 @@ router.get('/', function(request, response){
 
 router.delete('/', function(request, response){
     taskToBeDeleted = request.body.id;
+    console.log('taskToBeDeleted', taskToBeDeleted);
+    
     const sqlText = `DELETE FROM todo WHERE id=$1`;
     pool.query(sqlText,[taskToBeDeleted])
     .then(function(result){

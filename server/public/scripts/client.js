@@ -6,18 +6,21 @@ function onReady(){
         event.preventDefault();
         addTask();
     });
-    $('#viewTasks').on('click','.deleteButton', deleteTask);
+    $('#tables').on('click','.deleteButton', deleteTask);
     $('#viewTasks').on('click', '.completedButton', taskCompleted);
     $('#viewCompletedTasks').on('click', '.doAgainButton', taskPutBack);
 }
 
 function addTask(){
     let newTask = $('#newTask').val();
+    let calendar = $('#whichCalendar').val();
+    
     $.ajax({
         url: '/task',
         type: 'POST',
         data: {
-            'task': newTask
+            'task': newTask,
+            'calendar': calendar
         }
       }).done(function(response){
         console.log('task added:', response);
@@ -62,7 +65,10 @@ function displayAllTasks(listOfTasks){
 }
 
 function deleteTask(){
+    if (confirm('Are you sure you want to delete this task?')) {
     let id = $(this).data('id');
+    console.log('id', id);
+    
     $.ajax({
       type: 'delete',
       url: '/task',
@@ -75,6 +81,7 @@ function deleteTask(){
     }).fail(function(error){
       console.log(error)
     });
+    }
 }
 
 function taskCompleted(){
