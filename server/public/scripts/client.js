@@ -2,6 +2,7 @@ $(document).ready(onReady);
 
 function onReady(){
     getAllTasks();
+    getAllCalendars();
     $('#addTask').on('click', function(event){
         event.preventDefault();
         addTask();
@@ -9,6 +10,7 @@ function onReady(){
     $('#tables').on('click','.deleteButton', deleteTask);
     $('#viewTasks').on('click', '.completedButton', taskCompleted);
     $('#viewCompletedTasks').on('click', '.doAgainButton', taskPutBack);
+    $('#addCalendar').on('click', addCalendar);
 }
 
 function addTask(){
@@ -115,3 +117,45 @@ function taskPutBack(){
         console.log(error)
       }); 
 }
+
+function addCalendar(){
+    let newCalendar = $('#newCalendar').val();
+    let colorOfCalendar = $('#whichColor').val();
+    $.ajax({
+        url: '/task/calendar',
+        type: 'POST',
+        data: {
+            'calendar': newCalendar,
+            'color': colorOfCalendar
+        }
+      }).done(function(response){
+        console.log('calendar added:', response);
+        getAllCalendars();
+      }).fail(function(error){
+        console.log(error)
+      });
+}
+
+
+function getAllCalendars(){
+    $.ajax({
+        url: '/task/calendar',
+        type: 'GET',
+      }).done(function(response){
+        console.log('get all calendars:', response);
+        addCalendarToSelector(response);
+      }).fail(function(error){
+        console.log(error)
+      });
+}
+
+function addCalendarToSelector(listOfCalendars){
+    let calendarsToAppend;
+    $('#whichCalendar').empty();
+    for (calendar of listOfCalendars){
+        calendarsToAppend+=`<option>${calendar.calendar_name}<option>`;
+    }
+    $('#whichCalendar').append(calendarsToAppend);
+}
+
+//add a due date

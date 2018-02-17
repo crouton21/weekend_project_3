@@ -68,4 +68,33 @@ router.put('/redo', function(request, response){
     })
 })
 
+router.post('/calendar', function(request, response){
+    calendarToAdd = request.body;
+    console.log('calendarToAdd', calendarToAdd);
+    
+    const sqlText = `INSERT INTO calendars (calendar_name, color) VALUES($1, $2)`
+    pool.query(sqlText, [calendarToAdd.calendar, calendarToAdd.color])
+    .then(function(result){
+        console.log('Added calendar:', result);
+        response.send(201);
+    })
+    .catch(function(error){
+        console.log('Error adding calendar:', error);
+        response.sendStatus(500);
+    })
+});
+
+router.get('/calendar', function(request, response){
+    console.log('in calendar get');
+    const sqlText = 'SELECT * FROM calendars';
+    pool.query(sqlText)
+    .then(function(result){
+        console.log('result', result);
+        
+        response.send(result.rows);
+    }).catch(function(error){
+        response.sendStatus(500);
+    })
+})
+
 module.exports = router;
