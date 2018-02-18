@@ -2,54 +2,79 @@
   <head>
     <meta charset="utf-8">
     <title>TODO List</title>
+    <script src="vendors/bootstrap.js"></script>
+    <link rel="stylesheet" href="vendors/bootstrap.css">
     <script src="vendors/jQuery.js" charset="utf-8"></script>
     <script src="scripts/client.js" charset="utf-8"></script>
     <link rel="stylesheet" href="styles/style.css">
   </head>
   <body>
+    <div class="container-fluid">
+    <div id="header" class="jumbotron">My To Do List</div>
+    </div>
+    <div class="container-fluid">
+    <div id="inputArea">
     <form>
-        <input type="text" placeholder="New Task" id="newTask">
-        <select id="whichCalendar">
+        <input type="text" placeholder="New Task" id="newTask" class="col-sm-5">
+        <label id="dueDateLabel"for="dueDate" class="col-sm-1">Due Date:</label>
+        <input class="col-sm-2" type="text" placeholder="mm/dd/yyyy" id="dueDate">
+        <label class="col-sm-1">Calendar:</label>
+        <select class="col-sm-1"id="whichCalendar">
         </select>
-        <button id="addTask">Add Task</button>
+        <button class="col-sm-1" id="addTask">Add Task</button>
     </form>
+    </div>
+    </div>
     <section id="tables">
-    <table>
+    <table id="tasks">
+        <div class="container-fluid">
         <thead>
             <tr>
-                <th>Completed?</th>
-                <th>Task</th>
-                <th>Calendar</th>
-                <th>Delete</th>
+                <th class="col-sm-1">Completed?</th>
+                <th id="taskColumn"class="col-sm-6">Task</th>
+                <th class="col-sm-2">Due Date</th>
+                <th class="col-sm-2">Calendar</th>
+                <th class="col-sm-1">Delete</th>
             </tr>
         </thead>
+        </div>
+        <div class="container-fluid">
         <tbody id="viewTasks">
         </tbody>
+         </div>
     </table>
 
-    <table>
+    <table id="completedTasks">
+        <div class="container-fluid">
         <thead>
             <tr>
-                <th>Completed Task</th>
-                <th>Delete</th>
-                <th>Do Again</th>
+                <th class="col-sm-7">Completed Task</th>
+                <th class="col-sm-3">Delete</th>
+                <th class="col-sm-2">Do Again</th>
             </tr>
         </thead>
+         </div>
+         <div class="container-fluid">
             <tbody id="viewCompletedTasks">
             </tbody>
+        </div>
         </table>
     </section>
     <section id="addACalendar">
-            <input type="text" placeholder="New Calendar" id="newCalendar">
-            <select id="whichColor">
-                <option>red</option>
+            <div class="container-fluid">
+            <input class="col-sm-2 calendar" type="text" placeholder="Calendar" id="newCalendar">
+            <select class="col-sm-2 calendar" id="whichColor">
                 <option>yellow</option>
                 <option>blue</option>
                 <option>green</option>
                 <option>orange</option>
                 <option>purple</option>
             </select>
-            <button id="addCalendar">Add Calendar</button>
-    </section>
+            <button class="col-sm-2 calendar" id="addCalendar">Add Calendar</button>
+            <select class="col-sm-2 calendar delete" id="whichCalendar2">
+            </select>
+            <button class="col-sm-2 calendar delete" id="deleteCalendar">Delete Calendar</button>
+        </div>
+    </section> 
   </body>
 </html>

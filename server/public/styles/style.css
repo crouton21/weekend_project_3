@@ -1,0 +1,73 @@
+/* color code calendars
+color code due date class .overdue and .notOverdue */
+
+/* all tables */
+
+table {
+    border-collapse: collapse;
+}
+
+th{
+    padding: 5px;
+    text-align: center;
+}
+
+td{
+    padding: 5px;
+    text-align: center;
+}
+
+tr{
+    padding: 20px;
+}
+
+/* input area stuff */
+
+#inputArea{
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    padding: 20px;
+    margin: 14px;
+}
+
+/* first container */
+
+#tasks{
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    margin:30px;
+}
+
+#taskColumn{
+    text-align: left;
+}
+
+#addACalendar{
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    margin:30px;
+}
+
+.calendar{
+    margin: 10px;
+}
+
+.delete{
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+}
+
+#whichCalendar2{
+    margin-left:80px;
+}
+
+#completedTasks{
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    margin: 30px;
+}

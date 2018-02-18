@@ -5,8 +5,8 @@ const pool = require('../modules/pool.js');
 
 router.post('/', function(request, response){
     taskToAdd = request.body;
-    const sqlText = `INSERT INTO todo (task, completed, calendar) VALUES($1, $2, $3)`
-    pool.query(sqlText, [taskToAdd.task, false, taskToAdd.calendar])
+    const sqlText = `INSERT INTO todo (task, completed, calendar, duedate) VALUES($1, $2, $3, $4)`
+    pool.query(sqlText, [taskToAdd.task, false, taskToAdd.calendar, taskToAdd.dueDate])
     .then(function(result){
         console.log('Added task:', result);
         response.send(201);
@@ -93,6 +93,21 @@ router.get('/calendar', function(request, response){
         
         response.send(result.rows);
     }).catch(function(error){
+        response.sendStatus(500);
+    })
+})
+
+router.put('/calendar', function(request, response){
+    calendarToDelete = request.body.calendar;
+    console.log('in calendar put');
+    const sqlText = 'DELETE FROM calendars WHERE calendar_name=$1;'
+    pool.query(sqlText, [calendarToDelete])
+    .then(function(result){
+        console.log('Deleted calendar:', calendarToDelete);
+        response.send(200);
+    })
+    .catch(function(error){
+        console.log('Error deleting calendar:', error);
         response.sendStatus(500);
     })
 })
