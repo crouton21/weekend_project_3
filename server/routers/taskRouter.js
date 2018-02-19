@@ -112,4 +112,21 @@ router.put('/calendar', function(request, response){
     })
 })
 
+router.put('/edit', function(request, response){
+    let id = request.body.id;
+    let newtask = request.body.newTask;
+    let newduedate = request.body.newDueDate;
+    let newcalendar = request.body.newCalendar;
+
+    const sqlText = `UPDATE todo SET task=$1, duedate=$2, calendar=$3 WHERE id=$4`;
+    pool.query(sqlText,[newtask, newduedate, newcalendar, id])
+    .then(function(result){
+        console.log('row updated:', result);
+        response.send(200);
+    }).catch(function(error){
+        console.log('Error, row not updated:', error);
+        response.sendStatus(500);
+    })
+})
+
 module.exports = router;

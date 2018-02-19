@@ -12,36 +12,40 @@
     <div class="container-fluid">
     <div id="header" class="jumbotron">My To Do List</div>
     </div>
-    <div class="container-fluid">
+    <div id="restOfBody">
+    <div class="container">
     <div id="inputArea">
     <form>
-        <input type="text" placeholder="New Task" id="newTask" class="col-sm-5">
-        <label id="dueDateLabel"for="dueDate" class="col-sm-1">Due Date:</label>
-        <input class="col-sm-2" type="text" placeholder="mm/dd/yyyy" id="dueDate">
-        <label class="col-sm-1">Calendar:</label>
-        <select class="col-sm-1"id="whichCalendar">
+        <label id="taskLabel"for="newTask">Task:</label>
+        <input type="text" placeholder="New Task" id="newTask"><br>
+        <label id="dueDateLabel"for="dueDate">Due Date:</label>
+        <input type="text" placeholder="mm/dd/yyyy" id="dueDate"><br>
+        <label>Calendar:</label>
+        <select id="whichCalendar">
         </select>
-        <button class="col-sm-1" id="addTask">Add Task</button>
+        <button id="addTask">Add Task</button>
     </form>
     </div>
     </div>
     <section id="tables">
     <table id="tasks">
-        <div class="container-fluid">
+        <div class="container">
         <thead>
             <tr>
-                <th class="col-sm-1">Completed?</th>
-                <th id="taskColumn"class="col-sm-6">Task</th>
-                <th class="col-sm-2">Due Date</th>
-                <th class="col-sm-2">Calendar</th>
-                <th class="col-sm-1">Delete</th>
+                <th>Completed?</th>
+                <th id="taskColumn">Task</th>
+                <th>Due Date</th>
+                <th>Calendar</th>
+                <th>Edit</th>
+                <th>Delete</th>
             </tr>
         </thead>
         </div>
-        <div class="container-fluid">
+        <div id="line"></div>
+        <div class="container">
         <tbody id="viewTasks">
         </tbody>
-         </div>
+        </div>
     </table>
 
     <table id="completedTasks">
@@ -60,21 +64,26 @@
         </div>
         </table>
     </section>
+    <div id="line"></div>
     <section id="addACalendar">
-            <div class="container-fluid">
-            <input class="col-sm-2 calendar" type="text" placeholder="Calendar" id="newCalendar">
-            <select class="col-sm-2 calendar" id="whichColor">
+            <div class="container">
+            <input class="calendar" type="text" placeholder="Calendar" id="newCalendar">
+            <select class="calendar" id="whichColor">
                 <option>yellow</option>
                 <option>blue</option>
                 <option>green</option>
                 <option>orange</option>
                 <option>purple</option>
             </select>
-            <button class="col-sm-2 calendar" id="addCalendar">Add Calendar</button>
-            <select class="col-sm-2 calendar delete" id="whichCalendar2">
+            <button class="calendar" id="addCalendar">Add Calendar</button>
+        </section>
+        <section id="deleteACalendar">
+            <select class="calendar delete" id="whichCalendar2">
             </select>
-            <button class="col-sm-2 calendar delete" id="deleteCalendar">Delete Calendar</button>
+            <button class="calendar delete" id="deleteCalendar">Delete Calendar</button>
         </div>
+        <div id=displayCalendars></div>
     </section> 
+    </div>
   </body>
 </html>

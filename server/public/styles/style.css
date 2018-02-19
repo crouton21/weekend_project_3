@@ -1,5 +1,22 @@
 /* color code calendars
 color code due date class .overdue and .notOverdue */
+#header{
+    background-color: #E8A87C;
+    text-align: center;
+    font-size: 4em;
+    color: #3B3738;
+}
+
+body{
+    background-color: #FDF3E7;
+    width: 100%;
+    margin: 0%;    
+
+}
+
+#restOfBody{
+    background-color: #FDF3E7;
+}
 
 /* all tables */
 
@@ -23,51 +40,112 @@ tr{
 
 /* input area stuff */
 
+.container{
+
+}
+
 #inputArea{
+    width: 26%;
+    float: left;
     border-style: solid;
-    border-color: black;
+    border-color: #3B3738;
     border-width: 1px;
     padding: 20px;
-    margin: 14px;
+    margin-left: 0px;
+    color:#3B3738;
 }
 
-/* first container */
-
-#tasks{
-    border-style: solid;
-    border-color: black;
-    border-width: 1px;
-    margin:30px;
-}
-
-#taskColumn{
-    text-align: left;
-}
-
-#addACalendar{
-    border-style: solid;
-    border-color: black;
-    border-width: 1px;
-    margin:30px;
-}
-
-.calendar{
+#newTask{
     margin: 10px;
 }
 
-.delete{
-    border-style: solid;
-    border-color: black;
-    border-width: 1px;
+#dueDate{
+    margin: 10px;
 }
 
-#whichCalendar2{
-    margin-left:80px;
+#whichCalendar{
+    margin: 10px;
+}
+/* first table */
+
+#tasks{
+    border-style: solid;
+    border-color: #3B3738;
+    border-width: 1px;
+    float: right;
+    width: 60%;
+    margin-right: 50px;
+    position: absolute;
+    top: 206px;
+    right: 20px;
+    color:#3B3738;
+}
+
+#taskColumn{
+    text-align: center;
+}
+
+/* jQuery attributes */
+
+.hidden{
+    visibility: hidden;
+}
+
+.show{
+    visibility: visible;
+}
+
+.overdue{
+    border-style: solid;
+    border-color: red;
+    border-width: 2px;
+}
+
+/* second table */
+
+#line{
+    border-style: solid;
+    border-color: #41B3A3;
+    border-width: 1px;
+    margin: 70px;
 }
 
 #completedTasks{
     border-style: solid;
-    border-color: black;
+    border-color: #3B3738;
     border-width: 1px;
-    margin: 30px;
+    margin-left: 85px;
+    color:#3B3738;
+}
+
+#completedTasks tbody tr:nth-child(even) {
+    background: #FDF3E7;
+}
+
+#completedTasks tbody tr:nth-child(odd) {
+    background: #fff8dc;
+}
+
+/* add a calendar section */
+
+#addACalendar{
+    border-style: solid;
+    border-color: #3B3738;
+    border-width: 1px;
+    margin:30px;
+    margin-left: 80px;
+    width: 30%;
+    padding: 20px;
+}
+
+#deleteACalendar{
+    border-style: solid;
+    border-color: #3B3738;
+    border-width: 1px;
+    width: 18%;
+    margin-top: -98px;
+    margin-right: 500px;
+    padding: 20px;
+    display: inline;
+    float: right;
 }

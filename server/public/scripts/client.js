@@ -12,6 +12,8 @@ function onReady(){
     $('#viewCompletedTasks').on('click', '.doAgainButton', taskPutBack);
     $('#addCalendar').on('click', addCalendar);
     $('#deleteCalendar').on('click', updateCalendars);
+    $('#viewTasks').on('click', '.editButton', editButtonClicked);
+    $('#viewTasks').on('click', '.saveButton', saveButtonClicked);
 }
 
 function addTask(){
@@ -41,6 +43,7 @@ function getAllTasks(){
       }).done(function(response){
         console.log('get all tasks:', response);
         displayAllTasks(response);
+        getAllCalendars();
       }).fail(function(error){
         console.log(error)
       });
@@ -51,14 +54,20 @@ function displayAllTasks(listOfTasks){
     $('#viewTasks').empty();
     $('#viewCompletedTasks').empty();
     $('#newTask').val('');
+    $('#dueDate').val('');
     let notCompletedToAppend;
     let completedToAppend;
     for (todo of listOfTasks){
+        if (todo.duedate == ''){
+            todo.duedate = "no due date";
+        }
         if (todo.completed == 'false'){
-            notCompletedToAppend += `<tr><td><button data-id="${todo.id}" class="completedButton"></button></td>
-                        <td id="taskColumn">${todo.task}</td>
-                        <td class=${determineDueDate(todo.duedate)}>${todo.duedate}</td>
-                        <td>${todo.calendar}</td>
+            notCompletedToAppend += `<tr class="${todo.calendar}"><td><button data-id="${todo.id}" class="completedButton"></button></td>
+                        <td><div id="taskColumn${todo.id}">${todo.task}</div><div><input type="text" id="taskInput${todo.id}" value="${todo.task}" class="hidden"></div></td>
+                        <td><div id="dueDateColumn${todo.id}" class=${determineDueDate(todo.duedate)}>${todo.duedate}</div><div><input type="text" id="dueDateInput${todo.id}" value="${todo.duedate}" class="hidden"></div></td>
+                        <td><div id=calendarColumn${todo.id}>${todo.calendar}</div>
+                        <div><select class="tableSelector hidden" id="calendarSelector${todo.id}" value="${todo.calendar}"></select></div></td>
+                        <td><button class="editButton" data-id="${todo.id}">Edit</button><button data-id="${todo.id}" class="saveButton hidden" data-id="${todo.id}">Save</button></td>
                         <td><button class="deleteButton" data-id="${todo.id}">Delete</button></td></tr>`;
         }
         else{
@@ -73,14 +82,11 @@ function displayAllTasks(listOfTasks){
 
 function determineDueDate(dueDate){
     //check for no due date
-    if (dueDate==null){
+    if (dueDate==''){
         return 'notOverdue';}
     //find month, day and year from due date
     var dateNumbers = dueDate.replace(/\D/g,'');
-    if (dateNumbers.length != 8){
-        alert ('Please enter date in the format mm/dd/yyyy');
-        return;
-    }
+    console.log('length of dueDate', dueDate.length);
     var dueMonth = dateNumbers.substring(0,2);
     let dueDay = dateNumbers.substring(2,4);
     let dueYear = dateNumbers.substring(4,8);
@@ -89,23 +95,73 @@ function determineDueDate(dueDate){
     var month = q.getMonth()+1;
     var day = q.getDate();
     var year = q.getFullYear();
+    console.log('current date',month,day,year);
+    console.log('due date',dueMonth, dueDay, dueYear);
+    console.log(year>dueYear);
+    
+    
     //compare the dates
     if (year > dueYear){
-        return 'overdue';
+        console.log('stopping at years');
+        return 'notOverdue';
     }
     else{
-        if (month > dueMonth){
-            return 'overdue';
+        if (month < dueMonth){
+            console.log('stopping at months');
+            return 'notOverdue';
         }
         else{
-            if (day > dueDay){
-                return 'overdue';
-            }
-            else{
+            if (day < dueDay){
+                console.log('stopping at days');
                 return 'notOverdue';
             }
-        }
-    }   
+            else{
+                console.log('stopping at the end');
+                return 'overdue';}}}}
+
+function editButtonClicked(){
+    $('.editButton').addClass("hidden");
+    $('.saveButton').removeClass("hidden");
+    let id = $(this).data('id');
+    $(`#taskColumn${id}`).addClass("hidden");
+    $(`#taskInput${id}`).removeClass("hidden");
+    $(`#dueDateInput${id}`).removeClass("hidden");
+    $(`#dueDateColumn${id}`).addClass("hidden");
+    $(`#calendarSelector${id}`).removeClass("hidden");
+    $(`#calendarColumn${id}`).addClass("hidden");
+    
+}
+
+function saveButtonClicked(){
+    //send values to server to update db
+    let id = $(this).data('id');
+    let newTask = $(`#taskInput${id}`).val();
+    let newDueDate = $(`#dueDateInput${id}`).val();
+    let newCalendar = $(`#calendarSelector${id}`).val();
+    taskToEdit = {
+        id: id,
+        newTask: newTask,
+        newDueDate: newDueDate,
+        newCalendar: newCalendar
+    }    
+    $.ajax({
+        url: '/task/edit',
+        type: 'PUT',
+        data: taskToEdit
+      }).done(function(response){
+        console.log('Everything is edited:', response);
+        getAllTasks();
+      }).fail(function(error){
+        console.log(error)
+      }); 
+    $('.editButton').removeClass("hidden");
+    $('.saveButton').addClass("hidden");
+    $(`#taskInput${id}`).addClass("hidden");
+    $(`#taskColumn${id}`).removeClass("hidden");
+    $(`#dueDateInput${id}`).addClass("hidden");
+    $(`#dueDateColumn${id}`).removeClass("hidden");
+    $(`#calendarSelector${id}`).addClass("hidden");
+    $(`#calendarColumn${id}`).removeClass("hidden");
 }
 
 function deleteTask(){
@@ -184,10 +240,37 @@ function getAllCalendars(){
         type: 'GET',
       }).done(function(response){
         console.log('get all calendars:', response);
+        $('#whichCalendar2').empty();
         addCalendarToSelector(response);
+        changeColorsOfRows(response);
       }).fail(function(error){
         console.log(error)
       });
+}
+
+function changeColorsOfRows(listOfCalendars){
+    let color;
+    for (calendar of listOfCalendars){
+        if (calendar.color == 'yellow'){
+            color = "#E8A87C";
+        }
+        else if(calendar.color == 'orange'){
+            color = "#E8A87C";
+        }
+        else if(calendar.color == 'blue'){
+            color = "#85DCB";
+        }
+        else if (calendar.color == 'green'){
+            color = "#41B3A3";
+        }
+        else if (calendar.color == 'purple'){
+            color = "#C38D9E"
+        }
+        else{
+            color = "white";
+        }
+        $(`.${calendar.calendar_name}`).css("background-color", color);
+    }
 }
 
 function addCalendarToSelector(listOfCalendars){
@@ -195,11 +278,14 @@ function addCalendarToSelector(listOfCalendars){
     console.log('list Of Calendars:', listOfCalendars);
     $('#whichCalendar').empty();
     $('#whichCalendarw2').empty();
+    $('.tableSelector').empty();
+    //
     for (calendar of listOfCalendars){
         calendarsToAppend+=`<option>${calendar.calendar_name}</option>`;
     }
     $('#whichCalendar').append(calendarsToAppend);
     $('#whichCalendar2').append(calendarsToAppend);
+    $('.tableSelector').append(calendarsToAppend);
 }
 
 function updateCalendars(){
@@ -218,7 +304,4 @@ function updateCalendars(){
       });
 }
 
-//populate the calendar column with a select so you can change the calendar
 //what happens to task that belongs to deleted calendar?
-//be able to change the due date
-//be able to edit the task
