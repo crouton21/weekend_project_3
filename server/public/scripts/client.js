@@ -242,33 +242,39 @@ function getAllCalendars(){
         console.log('get all calendars:', response);
         $('#whichCalendar2').empty();
         addCalendarToSelector(response);
+        displayCalendars(response);
         changeColorsOfRows(response);
       }).fail(function(error){
         console.log(error)
       });
 }
 
+function determineColor(color){
+    if (color == 'yellow'){
+        color = "#E8A87C";
+    }
+    else if(color == 'orange'){
+        color = "#E27D60";
+    }
+    else if(color == 'blue'){
+        color = "#8ED2CC";
+    }
+    else if (color == 'green'){
+        color = "#41B3A3";
+    }
+    else if (color == 'purple'){
+        color = "#C38D9E"
+    }
+    else{
+        color = "white";
+    }
+    return color;
+}
+
 function changeColorsOfRows(listOfCalendars){
     let color;
     for (calendar of listOfCalendars){
-        if (calendar.color == 'yellow'){
-            color = "#E8A87C";
-        }
-        else if(calendar.color == 'orange'){
-            color = "#E8A87C";
-        }
-        else if(calendar.color == 'blue'){
-            color = "#85DCB";
-        }
-        else if (calendar.color == 'green'){
-            color = "#41B3A3";
-        }
-        else if (calendar.color == 'purple'){
-            color = "#C38D9E"
-        }
-        else{
-            color = "white";
-        }
+        color = determineColor(calendar.color);
         $(`.${calendar.calendar_name}`).css("background-color", color);
     }
 }
@@ -288,6 +294,17 @@ function addCalendarToSelector(listOfCalendars){
     $('.tableSelector').append(calendarsToAppend);
 }
 
+function displayCalendars(listOfCalendars){
+    let calendarToAppend = 'Calendars:';
+    $('#displayCalendars').empty();
+    for (calendar of listOfCalendars){
+        let color = determineColor(calendar.color);
+        calendarToAppend+=`<div style="height:20px;width:20px;background-color:${color};">
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp${calendar.calendar_name}</div>`;
+    }
+    $('#displayCalendars').append(calendarToAppend);
+}
+
 function updateCalendars(){
     let calendarToDelete =  $('#whichCalendar2').val();
     $.ajax({
@@ -303,5 +320,3 @@ function updateCalendars(){
         console.log(error)
       });
 }
-
-//what happens to task that belongs to deleted calendar?

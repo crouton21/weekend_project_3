@@ -138,13 +138,25 @@ tr{
     padding: 20px;
 }
 
+#displayCalendars{
+    border-style: solid;
+    border-color: #3B3738;
+    border-width: 1px;
+    width: 18%;
+    margin-top: -98px;
+    margin-right: 80px;
+    padding: 20px;
+    display: inline;
+    float: right;
+}
+
 #deleteACalendar{
     border-style: solid;
     border-color: #3B3738;
     border-width: 1px;
     width: 18%;
     margin-top: -98px;
-    margin-right: 500px;
+    margin-right: 150px;
     padding: 20px;
     display: inline;
     float: right;
